@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.jettipapp.components.InputField
 import com.example.jettipapp.ui.theme.JetTipAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -26,8 +27,10 @@ class MainActivity : ComponentActivity() {
         setContent {
 
                 MyApp {
-                    TopHeader()
-                    RoundedBoderMainContent()
+                    Column() {
+                        TopHeader()
+                        RoundedBoderMainContent()
+                    }
                 }
         }
     }
@@ -36,14 +39,15 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun RoundedBoderMainContent(){
+
     Surface(modifier = Modifier
         .fillMaxWidth()
         .height(250.dp)
-        .padding(13.dp, 0.dp,13.dp,0.dp),
+        .padding(13.dp, 0.dp, 13.dp, 0.dp),
         shape = RoundedCornerShape(corner = CornerSize(12.dp)),
         border = BorderStroke(2.dp, Color.LightGray)
     ) {
-        
+
     }
 }
 
@@ -53,7 +57,7 @@ fun TopHeader(totalPerPerson: Double = 0.0){
     Surface(modifier = Modifier
         .fillMaxWidth()
         .height(150.dp)
-        .padding(18.dp,20.dp,18.dp,13.dp)
+        .padding(18.dp, 20.dp, 18.dp, 13.dp)
         .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp))),
         color = Color(0xFFE9D7F7)
     ){
