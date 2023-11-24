@@ -1,5 +1,6 @@
 package com.example.jettipapp.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -36,8 +37,9 @@ fun InputField(
         leadingIcon = { Icon(imageVector = Icons.Rounded.AttachMoney, contentDescription = "Money icon")},
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType, imeAction = imeAction),
         keyboardActions = onAction,
-        modifier = modifier.padding(start = 10.dp, bottom = 10.dp, end = 10.dp
-        )
+        modifier = modifier
+            .padding(start = 10.dp, bottom = 10.dp, end = 10.dp)
+            .fillMaxWidth()
 
     )
 
