@@ -1,6 +1,7 @@
 package com.example.jettipapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -42,39 +43,16 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalComposeUiApi
-@Preview
 @Composable
-fun RoundedBoderMainContent(){
-
-    val totalBillState = remember{
-        mutableStateOf("")
-    }
-
-    val validTextState = remember(totalBillState) {
-        totalBillState.value.trim().isNotEmpty()
-    }
-
- //   val keyboardController = LocalSoftwareKeyboardController.current
-
-    Surface(modifier = Modifier
-        .fillMaxWidth()
-        .height(250.dp)
-        .padding(13.dp, 0.dp, 13.dp, 0.dp),
-        shape = RoundedCornerShape(corner = CornerSize(12.dp)),
-        border = BorderStroke(2.dp, Color.LightGray)
-    ) {
-        InputField(
-            valueState = totalBillState,
-            enabled = true, isSingleLine = true,
-            labelId = "Total bill",
-            onAction = KeyboardActions {
-                if(!validTextState) return@KeyboardActions
-                //TODO - onvaluechange
-
-             //   keyboardController?.hide()
-            }
-        )
+fun MyApp(content: @Composable () -> Unit){
+    JetTipAppTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colors.background
+        ) {
+            content()
+        }
     }
 }
 
@@ -89,7 +67,7 @@ fun TopHeader(totalPerPerson: Double = 0.0){
         color = Color(0xFFE9D7F7)
     ){
         Column(verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+            horizontalAlignment = Alignment.CenterHorizontally) {
             val total = "%.2f".format(totalPerPerson)
             Text(text = "Total Per Person", style = MaterialTheme.typography.h5)
             Text(text = "$$total", style = MaterialTheme.typography.h4, fontWeight = FontWeight.ExtraBold)
@@ -98,18 +76,59 @@ fun TopHeader(totalPerPerson: Double = 0.0){
     }
 }
 
+
+@ExperimentalComposeUiApi
+@Preview
 @Composable
-fun MyApp(content: @Composable () -> Unit){
-    JetTipAppTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
-        ) {
-            content()
-        }
+fun RoundedBoderMainContent(){
+
+    BillForm(){ billAmount ->
+        Log.d("Amount", billAmount)
     }
+
+    }
+
+@ExperimentalComposeUiApi
+@Composable
+fun BillForm(modifier: Modifier = Modifier,
+             onValChange: (String) -> Unit = {} ){
+
+    val totalBillState = remember{
+        mutableStateOf("")
+    }
+
+    val validTextState = remember(totalBillState.value) {
+        totalBillState.value.trim().isNotEmpty()
+    }
+
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .height(250.dp)
+        .padding(13.dp, 0.dp, 13.dp, 0.dp),
+        shape = RoundedCornerShape(corner = CornerSize(12.dp)),
+        border = BorderStroke(2.dp, Color.LightGray)
+    ) {
+        InputField(
+            valueState = totalBillState,
+            enabled = true, isSingleLine = true,
+            labelId = "Total bill",
+            onAction = KeyboardActions {
+                if(!validTextState) return@KeyboardActions
+
+                onValChange(totalBillState.value)
+
+                keyboardController?.hide()
+            }
+        )
+    }
+
+
 }
+
 
 
 @OptIn(ExperimentalComposeUiApi::class)
